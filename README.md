@@ -1,5 +1,7 @@
 # vm2 [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] [![Package Quality][quality-image]][quality-url] [![Travis CI][travis-image]][travis-url] [![Known Vulnerabilities][snyk-image]][snyk-url]
 
+### FORK NOTICE - vm2 modified to be Webpack-able - USE AT YOUR OWN RISK 
+
 vm2 is a sandbox that can run untrusted code with whitelisted Node's built-in modules. Securely!
 
 **Features**
@@ -30,7 +32,7 @@ console.log('Never gets executed.');
 ```
 
 ```javascript
-const {VM} = require('vm2');
+const {VM} = require('@takeshape/vm2');
 new VM().run('this.constructor.constructor("return process")().exit()');
 // Throws ReferenceError: process is not defined
 ```
@@ -44,14 +46,14 @@ new VM().run('this.constructor.constructor("return process")().exit()');
 ## Quick Example
 
 ```javascript
-const {VM} = require('vm2');
+const {VM} = require('@takeshape/vm2');
 const vm = new VM();
 
 vm.run(`process.exit()`); // TypeError: process.exit is not a function
 ```
 
 ```javascript
-const {NodeVM} = require('vm2');
+const {NodeVM} = require('@takeshape/vm2');
 const vm = new NodeVM({
     require: {
         external: true
@@ -99,7 +101,7 @@ VM is a simple sandbox, without `require` feature, to synchronously run an untru
 **IMPORTANT**: Timeout is only effective on synchronous code you run through `run`. Timeout is NOT effective on any method returned by VM. There're some situations when timeout doesn't work - see [#244](https://github.com/patriksimek/vm2/pull/244).
 
 ```javascript
-const {VM} = require('vm2');
+const {VM} = require('@takeshape/vm2');
 
 const vm = new VM({
     timeout: 1000,
@@ -147,7 +149,7 @@ Unlike `VM`, `NodeVM` lets you require modules same way like in regular Node's c
 **REMEMBER**: The more modules you allow, the more fragile your sandbox becomes.
 
 ```javascript
-const {NodeVM} = require('vm2');
+const {NodeVM} = require('@takeshape/vm2');
 
 const vm = new NodeVM({
     console: 'inherit',
@@ -198,7 +200,7 @@ vm.run("require('foobar')", "/data/myvmscript.js");
 You can increase performance by using pre-compiled scripts. The pre-compiled VMScript can be run later multiple times. It is important to note that the code is not bound to any VM (context); rather, it is bound before each run, just for that run.
 
 ```javascript
-const {VM, VMScript} = require('vm2');
+const {VM, VMScript} = require('@takeshape/vm2');
 
 const vm = new VM();
 const script = new VMScript("Math.random()");
@@ -209,7 +211,7 @@ console.log(vm.run(script));
 Works for both `VM` and `NodeVM`.
 
 ```javascript
-const {NodeVM, VMScript} = require('vm2');
+const {NodeVM, VMScript} = require('@takeshape/vm2');
 
 const vm = new NodeVM();
 const script = new VMScript("module.exports = Math.random()");
@@ -313,7 +315,7 @@ Unlike `freeze`, this method allows sandboxed script to add/modify/delete proper
 
 ```javascript
 const assert = require('assert');
-const {VM} = require('vm2');
+const {VM} = require('@takeshape/vm2');
 
 const sandbox = {
     object: new Object(),
